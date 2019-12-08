@@ -7,7 +7,7 @@ public class Resistance : electronicComponent {
     public double r = 1;
     public override void Simulate(float t, float deltaT)
     {
-        if (connect[0] == null || connect[1] == null) return;
+        if (connect[0] == null || connect[1] == null) { i = 0; return; }
         WireNet w1 = ((Wire)connect[0]).wireNet, w2 = ((Wire)connect[1]).wireNet;
         
         double c1 = w1.c, c2 = w2.c;

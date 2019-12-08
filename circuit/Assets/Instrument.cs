@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Instrument : electronicComponent
 {
@@ -10,23 +8,13 @@ public class Instrument : electronicComponent
     public float[] samples = new float[100];
     public int sampleIdx = 0;
     public float xs = 0.01f, maxY = 0.5f;
-    public virtual void create(electronicComponent[] args)
-    {
-        text = GetComponentInChildren<TextMesh>();
-        line = GetComponent<LineRenderer>();
-        wave = transform.GetChild(1).GetComponent<LineRenderer>();
-        create_child_class(args);
-    }
-    public virtual void create_child_class(electronicComponent[]args){}
-
     public virtual double GetSample()
     {
         return 0;
     }
-    void Update()
-    { 
-        
-
+    public override void Update()
+    {
+        base.Update();
         samples[sampleIdx] = (float)(GetSample());
         sampleIdx = (sampleIdx + 1) % samples.Length;
         float max = Mathf.Max(Mathf.Max(Mathf.Max(samples), -Mathf.Min(samples)));

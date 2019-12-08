@@ -7,6 +7,8 @@ public class electronicComponent : MonoBehaviour {
     public electronicComponent[] connect;
     public double i ;
     public GameObject selectMarkPrefab, selectMark;
+    public Vector3 targetPosition;
+    public float snap;
     public virtual void select()
     {
         selectMark = Instantiate(selectMarkPrefab,gameObject.transform);
@@ -18,14 +20,34 @@ public class electronicComponent : MonoBehaviour {
     {
         Destroy(selectMark);
     }
-    public virtual void move(Vector3 movement)
+    public virtual void move(Vector3 movement,float snap)
     {
-        transform.Translate(movement);
+        targetPosition  += movement;
+        this.snap = snap;
     }
-    public virtual void create()
+    public virtual void Start() { }
+    public virtual void Update()
+    {
+        if (snap == 0)
+        {
+            transform.position = (targetPosition);
+        }
+        else
+        {
+            transform.position = new Vector3(Mathf.RoundToInt((targetPosition.x) / snap), transform.position.y, Mathf.RoundToInt((targetPosition.z) / snap)) * snap;
+        }
+    }
+    public virtual void OnMouseRelease()
+    {
+        targetPosition = transform.position;
+    }
+    public virtual void create(Main main)
     {
         connect = new electronicComponent[2];
         for (int i = 0; i < connect.Length; i++) connect[i] = null;
+        targetPosition = transform.position;
+        snap = main.snapGap;
+        Update();
     }
     public virtual void delete()
     {

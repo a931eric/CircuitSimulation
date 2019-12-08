@@ -15,7 +15,7 @@ public class WireNet:MonoBehaviour{
         {
             if (w != null) { count++; break; }
         }
-        if(count==0) Destroy(gameObject);
+        if (count == 0) { Data.Remove(this); Destroy(gameObject); }
     }
 
 

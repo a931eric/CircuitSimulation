@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Capacitance : electronicComponent
 {
@@ -8,7 +6,7 @@ public class Capacitance : electronicComponent
     public double c = 0.01,q=0;
     public override void Simulate(float t, float deltaT)
     {
-        if (connect[0] == null || connect[1] == null) return;
+        if (connect[0] == null || connect[1] == null) { i = 0; return; }
         WireNet w1 = ((Wire)connect[0]).wireNet, w2 = ((Wire)connect[1]).wireNet;
 
         double c1 = w1.c, c2 = w2.c;
@@ -24,14 +22,15 @@ public class Capacitance : electronicComponent
         q = 0;
     }
     #endregion
-    Light light_;
+    public Light light_;
     public float intensity = 1;
-    private void Start()
+    public override void  Start()
     {
         light_ = GetComponentInChildren<Light>();
     }
-    private void Update()
+    public override void Update()
     {
+        base.Update();
         light_.intensity = 0.1f + intensity * Mathf.Abs((float)q);
         GetComponent<MeshRenderer>().sharedMaterial.SetColor("_EmissionColor", (intensity * Mathf.Abs((float)q) + 0.1f) *light_.color);
     }

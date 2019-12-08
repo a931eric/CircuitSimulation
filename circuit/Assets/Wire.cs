@@ -12,8 +12,8 @@ public class Wire : electronicComponent
         selectMark.transform.position = transform.position;
         selectMark.transform.Translate(-0.5f * transform.localScale.x, 0, -0.63f);
     }
-    public override void move(Vector3 movement){}
-    public override void create()
+    
+    public override void create(Main main)
     {
         connect = new electronicComponent[2];
         for (int i = 0; i < connect.Length; i++) connect[i] = null;
@@ -31,11 +31,10 @@ public class Wire : electronicComponent
             }
         }
         wireNet.wires.Remove(this);
-        Destroy(gameObject);
-        this.enabled = false;
+        DestroyImmediate(gameObject);
     }
 
-    public void Update()
+    public override void Update()
     {
         foreach (electronicComponent c in connect)//wire must be connected both sides
         {

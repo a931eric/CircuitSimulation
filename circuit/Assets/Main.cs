@@ -9,8 +9,10 @@ public class Main : MonoBehaviour {
     public float moveSpeedXMouse=0.5f;
     public float moveSpeedYMouse= 0.5f;
     public float moveSpeedZ = 0.5f;
+    public float snapGap;
     public GameObject wire, power, resistance,capacitance,inductor, intersection,voltmeter,ammeter,wireNet;
     Vector2 mouseLastPos;
+    
     public List< electronicComponent> selectedList;
     void Start () {
         selectedList = new List<electronicComponent>();
@@ -120,66 +122,46 @@ public class Main : MonoBehaviour {
         {
             foreach (electronicComponent c in selectedList)
             {
-                c.move(mousePos(selectedList[selectedList.Count-1].gameObject.transform.position.y, Input.mousePosition) - mousePos(selectedList[selectedList.Count - 1].gameObject.transform.position.y, mouseLastPos));
+                c.move(mousePos(selectedList[selectedList.Count-1].gameObject.transform.position.y, Input.mousePosition) - mousePos(selectedList[selectedList.Count - 1].gameObject.transform.position.y, mouseLastPos),Input.GetKey(KeyCode.LeftAlt)?0:snapGap);
             }
-            
+        }
+        if (Input.GetMouseButtonUp(0))//drag
+        {
+            foreach (electronicComponent c in selectedList)
+            {
+                c.OnMouseRelease();
+            }
         }
 
         #region create/delete components
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            foreach (electronicComponent c in selectedList) c.delete();
+            foreach (electronicComponent c in selectedList) { Data.Remove(c); c.delete(); }
             selectedList.Clear();
             reArrangeWireNets();
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            GameObject newObject= Instantiate(power);
-            newObject.GetComponent<electronicComponent>().create();
-            newObject.transform.position = mousePos(0,Input.mousePosition);
-            foreach (electronicComponent c in selectedList) c.unselect();
-            selectedList.Clear();
-            newObject.GetComponent<electronicComponent>().select();
-            selectedList.Add(newObject.GetComponent<electronicComponent>());
+            InitializeComponent(Instantiate(power));
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            GameObject newObject = Instantiate(resistance);
-            newObject.GetComponent<electronicComponent>().create();
-            newObject.transform.position = mousePos(0, Input.mousePosition);
-            foreach (electronicComponent c in selectedList) c.unselect();
-            selectedList.Clear();
-            newObject.GetComponent<electronicComponent>().select();
-            selectedList.Add(newObject.GetComponent<electronicComponent>());
+            InitializeComponent(Instantiate(resistance));
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            GameObject newObject = Instantiate(capacitance);
-            newObject.GetComponent<electronicComponent>().create();
-            newObject.transform.position = mousePos(0, Input.mousePosition);
-            foreach (electronicComponent c in selectedList) c.unselect();
-            selectedList.Clear();
-            newObject.GetComponent<electronicComponent>().select();
-            selectedList.Add(newObject.GetComponent<electronicComponent>());
+            InitializeComponent(Instantiate(capacitance));
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            GameObject newObject = Instantiate(inductor);
-            newObject.GetComponent<electronicComponent>().create();
-            newObject.transform.position = mousePos(0, Input.mousePosition);
-            foreach (electronicComponent c in selectedList) c.unselect();
-            selectedList.Clear();
-            newObject.GetComponent<electronicComponent>().select();
-            selectedList.Add(newObject.GetComponent<electronicComponent>());
+            InitializeComponent(Instantiate(inductor));
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
             GameObject newObject = Instantiate(intersection);
             Intersection script = (Intersection)newObject.GetComponent<electronicComponent>();
-            script.create();
-
-            
             newObject.transform.position = mousePos(0, Input.mousePosition);
+            script.create(this); 
             foreach (electronicComponent c in selectedList) c.unselect();
             selectedList.Clear();
             newObject.GetComponent<electronicComponent>().select();
@@ -197,7 +179,7 @@ public class Main : MonoBehaviour {
                 if (t)
                 {
                     GameObject newObject = Instantiate(wire);
-                    newObject.GetComponent<electronicComponent>().create();
+                    newObject.GetComponent<electronicComponent>().create(this);
                     Wire wireScript = newObject.GetComponent<Wire>();
                     
                     wireScript.addConnection( selectedList[0]);
@@ -226,8 +208,7 @@ public class Main : MonoBehaviour {
                 {
                     GameObject newObject = Instantiate(voltmeter);
                     Voltmeter script = newObject.GetComponent<Voltmeter>();
-                    Wire[] arg= { (Wire)selectedList[0], (Wire)selectedList[1]};
-                    script.create(arg);
+                    script.create_(this, (Wire)selectedList[0], (Wire)selectedList[1]);
                 }
             }
         }
@@ -239,8 +220,7 @@ public class Main : MonoBehaviour {
                 {
                     GameObject newObject = Instantiate(ammeter);
                     Ammeter script = newObject.GetComponent<Ammeter>();
-                    electronicComponent[] arg = { selectedList[0] };
-                    script.create(arg);
+                    script.create_(this, selectedList[0]);
                 }
             }
         }
@@ -261,21 +241,34 @@ public class Main : MonoBehaviour {
         mouseLastPos = Input.mousePosition;
     }
 
+    void InitializeComponent(GameObject newObject)
+    {
+        Data.Add(newObject.GetComponent<electronicComponent>());
+        newObject.transform.position = mousePos(0, Input.mousePosition);
+        newObject.GetComponent<electronicComponent>().create(this);
+        foreach (electronicComponent c in selectedList) c.unselect();
+        selectedList.Clear();
+        newObject.GetComponent<electronicComponent>().select();
+        selectedList.Add(newObject.GetComponent<electronicComponent>());
+    }
+
     List<electronicComponent> found;
     public void reArrangeWireNets()
     {
-        foreach(WireNet wn in FindObjectsOfType<WireNet>())
+        foreach(WireNet wn in Data.wireNet)
         {
             Destroy(wn.gameObject);
         }
+        Data.wireNet.Clear();
         List<electronicComponent> list = new List<electronicComponent>();
         found = new List<electronicComponent>();
-        list.AddRange(FindObjectsOfType<Wire>());
-        list.AddRange(FindObjectsOfType<Intersection>());
+        list.AddRange(FindObjectsOfType<Wire>());//-------add to data
+        list.AddRange(FindObjectsOfType<Intersection>());//----------
         while (list.Count > 0)
         {
             electronicComponent cur = list[0];
             WireNet w = Instantiate(wireNet).GetComponent<WireNet>();
+            Data.Add(w);
             foreach(electronicComponent c in getWireNet(cur))
             {
                 if (c.GetType() == typeof(Wire))

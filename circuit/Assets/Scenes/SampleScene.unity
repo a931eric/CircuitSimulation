@@ -323,7 +323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405c7a8f48577494b9753f85790a6ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wireNets: []
   t: 0
   deltaT: 0.001
   timePerFrame: 1
@@ -469,6 +468,7 @@ MonoBehaviour:
   moveSpeedXMouse: 0.5
   moveSpeedYMouse: 0.5
   moveSpeedZ: 0.5
+  snapGap: 1
   wire: {fileID: 1223511719206360, guid: be00587f817e8804ba598d0b2a570a66, type: 3}
   power: {fileID: 1347692188173410, guid: fb55fefdc4671e5478947c4aee74bcdf, type: 3}
   resistance: {fileID: 1404675109517030, guid: a205e7bfb17cf364eb34d56bafa18feb, type: 3}

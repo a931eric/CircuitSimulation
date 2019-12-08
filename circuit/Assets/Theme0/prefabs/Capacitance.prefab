@@ -111,8 +111,11 @@ MonoBehaviour:
   selectMarkPrefab: {fileID: 1052927353251694, guid: 5f75e45150c10154aa52c94a5faa486b,
     type: 3}
   selectMark: {fileID: 0}
-  c: 10
+  targetPosition: {x: 0, y: 0, z: 0}
+  snap: 0
+  c: 0.3
   q: 0
+  light_: {fileID: 108744930231450072}
   intensity: 0.1
 --- !u!1 &1701735198284988
 GameObject:

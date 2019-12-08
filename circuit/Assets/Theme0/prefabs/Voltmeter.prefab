@@ -319,9 +319,11 @@ MonoBehaviour:
   selectMarkPrefab: {fileID: 1052927353251694, guid: 5f75e45150c10154aa52c94a5faa486b,
     type: 3}
   selectMark: {fileID: 0}
-  text: {fileID: 0}
-  line: {fileID: 0}
-  wave: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  snap: 0
+  text: {fileID: 102395280248683648}
+  line: {fileID: 630801328316889817}
+  wave: {fileID: 120361799756268936}
   drawWave: 1
   samples:
   - 0

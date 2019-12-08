@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Intersection : electronicComponent {
     public WireNet wireNet;
-    public override void create()
+    public override void create(Main main)
     {
+        base.create(main);
         connect = new electronicComponent[16];
         for (int i = 0; i < connect.Length; i++) connect[i] = null;
-        
     }
     public override void delete()
     {
@@ -23,7 +23,6 @@ public class Intersection : electronicComponent {
             }
         }
         wireNet.intersections.Remove(this);
-        Destroy(gameObject);
-        this.enabled = false;
+        DestroyImmediate(gameObject);
     }
 }
