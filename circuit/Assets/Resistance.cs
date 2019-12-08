@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Resistance : electronicComponent {
     #region calc
-    public double r = 1,i;
+    public double r = 1;
     public override void Simulate(float t, float deltaT)
     {
         if (connect[0] == null || connect[1] == null) return;

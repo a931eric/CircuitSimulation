@@ -5,7 +5,7 @@ using UnityEngine;
 public class Capacitance : electronicComponent
 {
     #region calc
-    public double c = 0.01,q=0,i;
+    public double c = 0.01,q=0;
     public override void Simulate(float t, float deltaT)
     {
         if (connect[0] == null || connect[1] == null) return;
@@ -24,5 +24,15 @@ public class Capacitance : electronicComponent
         q = 0;
     }
     #endregion
-
+    Light light_;
+    public float intensity = 1;
+    private void Start()
+    {
+        light_ = GetComponentInChildren<Light>();
+    }
+    private void Update()
+    {
+        light_.intensity = 0.1f + intensity * Mathf.Abs((float)q);
+        GetComponent<MeshRenderer>().sharedMaterial.SetColor("_EmissionColor", (intensity * Mathf.Abs((float)q) + 0.1f) *light_.color);
+    }
 }

@@ -27,7 +27,7 @@ public class Voltmeter : Instrument
         {
             c1 = w1.wireNet; c2 = w2.wireNet;
         }
-
+        text.text = GetSample().ToString("0.00") + "V";
         Vector3[] p = { w1.centerPos, transform.position - new Vector3(0, 0.5f, 0), w2.centerPos };
         line.SetPositions(p);
     }

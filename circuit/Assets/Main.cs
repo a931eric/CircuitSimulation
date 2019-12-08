@@ -9,7 +9,7 @@ public class Main : MonoBehaviour {
     public float moveSpeedXMouse=0.5f;
     public float moveSpeedYMouse= 0.5f;
     public float moveSpeedZ = 0.5f;
-    public GameObject wire, power, resistance,capacitance,inductor, intersection,voltmeter,wireNet;
+    public GameObject wire, power, resistance,capacitance,inductor, intersection,voltmeter,ammeter,wireNet;
     Vector2 mouseLastPos;
     public List< electronicComponent> selectedList;
     void Start () {
@@ -226,13 +226,23 @@ public class Main : MonoBehaviour {
                 {
                     GameObject newObject = Instantiate(voltmeter);
                     Voltmeter script = newObject.GetComponent<Voltmeter>();
-                    Wire[] arg = new Wire[2];
-                    arg[0] = (Wire)selectedList[0];
-                    arg[1] = (Wire)selectedList[1];
+                    Wire[] arg= { (Wire)selectedList[0], (Wire)selectedList[1]};
                     script.create(arg);
                 }
             }
-
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (selectedList.Count == 1)
+            {
+                if (selectedList[0].GetType()!=typeof(Wire))
+                {
+                    GameObject newObject = Instantiate(ammeter);
+                    Ammeter script = newObject.GetComponent<Ammeter>();
+                    electronicComponent[] arg = { selectedList[0] };
+                    script.create(arg);
+                }
+            }
         }
         if (Input.GetKey(KeyCode.Escape))
         {

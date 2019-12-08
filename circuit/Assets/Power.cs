@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Power : electronicComponent
 {
-    #region calc
-    public double i;
+    #region calc;
     public double amp = 1,freq=1;
     public AnimationCurve curve;
     public double v(float t)

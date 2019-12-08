@@ -25,7 +25,7 @@ public class Instrument : electronicComponent
     }
     void Update()
     { 
-        text.text = (GetSample()).ToString("0.00") + "V";
+        
 
         samples[sampleIdx] = (float)(GetSample());
         sampleIdx = (sampleIdx + 1) % samples.Length;

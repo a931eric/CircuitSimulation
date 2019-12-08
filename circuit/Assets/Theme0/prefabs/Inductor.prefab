@@ -107,11 +107,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connect: []
+  i: 0
   selectMarkPrefab: {fileID: 1052927353251694, guid: 5f75e45150c10154aa52c94a5faa486b,
     type: 3}
   selectMark: {fileID: 0}
   l: 1
-  i: 0
+  intensity: 0.1
 --- !u!1 &3903996938841644000
 GameObject:
   m_ObjectHideFlags: 0

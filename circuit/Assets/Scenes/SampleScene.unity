@@ -428,7 +428,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460724321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.18456924, y: -0.718, z: -0.09496164}
+  m_LocalPosition: {x: 0, y: -0.718, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -479,6 +479,7 @@ MonoBehaviour:
   intersection: {fileID: 1084921012931370, guid: 99f2958cb15e1d1469cc36c000c75270,
     type: 3}
   voltmeter: {fileID: 1649661412350432, guid: 10a45a4b325951c4dbcd99eb8b62a2ce, type: 3}
+  ammeter: {fileID: 187980354509593510, guid: 30221205fb08e374aa04d94b4be72522, type: 3}
   wireNet: {fileID: 1751067177121794, guid: 2157ac9af8847a449a7006faa0e63591, type: 3}
   selectedList: []
 --- !u!4 &1900204981

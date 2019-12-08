@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class electronicComponent : MonoBehaviour {
-    Wire[] wires;
+ 
     public electronicComponent[] connect;
-    
+    public double i ;
     public GameObject selectMarkPrefab, selectMark;
     public virtual void select()
     {

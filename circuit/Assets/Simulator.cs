@@ -23,6 +23,10 @@ public class Simulator:MonoBehaviour{
             {
                 c.Simulate(t, deltaT);
             }
+            foreach (Inductor c in Object.FindObjectsOfType<Inductor>())
+            {
+                c.Simulate(t, deltaT);
+            }
             foreach (Power c in Object.FindObjectsOfType<Power>())
             {
                 c.Simulate(t, deltaT);
